@@ -1,0 +1,177 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   font-family: "Poppins", sans-serif;
+}
+
+body {
+   background-color: #34293b;
+   color: white;
+   height: 100%;
+}
+.navbar-brand img {
+   border-radius: 20px;
+}
+.navbar,
+#demo-section {
+   background-color: #211a25;
+}
+form.d-flex button {
+   background-color: #755f85;
+   color: white;
+   outline: none;
+   border: none;
+}
+form.d-flex button:hover {
+   background-color: #9275a5;
+}
+
+.logoUser {
+   border-radius: 50%;
+   background-size: 30px;
+   width: 30px;
+   height: 30px;
+   min-height: 30px;
+   min-width: 30px;
+}
+
+.btn-addBot {
+   color: #fff;
+   background-color: #856b97;
+   border-color: #856b97;
+   transition: 0.3s ease;
+}
+
+.btn-addBot:hover {
+   color: #fff;
+   background-color: #9275a5;
+   border-color: #9275a5;
+   transform: scale(1.1);
+}
+
+
+.btn-connect {
+   color: #fff;
+   background-color: #6b557a;
+   border-color: #6b557a;
+   transition: all 0.3s ease;
+}
+
+.btn-connect:hover {
+   color: #fff;
+   background-color: #5b4868;
+   border-color: #5b4868;
+   transform: scale(1.1);
+}
+
+
+/* MAIN BODY */
+
+.head {
+   padding-top: 100px;
+   color: white;
+   line-height: 1.3;
+   text-align: center;
+}
+
+.subtext {
+   padding-bottom: 40px;
+   color: #9fadbd;
+   line-height: 1.3;
+   text-align: center;
+}
+.subtext-1 {
+   padding-bottom: 200px;
+}
+.buttons {
+   display: flex;
+   -ms-flex-align: center;
+   align-items: center;
+   -ms-flex-pack: center;
+   justify-content: center;
+}
+
+@media screen and (max-width: 800px) {
+   .buttons {
+      -ms-flex-direction: column;
+      flex-direction: column;
+   }
+}
+
+.bt {
+   margin-left: 20px;
+   margin-right: 20px;
+   padding: 15px;
+}
+.bt-1 {
+   margin-top: 25px;
+   padding: 15px;
+}
+
+.container {
+   padding-top: 30px;
+}
+
+.row {
+   padding-bottom: 30px;
+}
+
+#channel_gif {
+   width: 85%;
+   height: 90%;
+   border-radius: 25px;
+}
+
+.holder-col {
+   flex: 0 0 33.333333%;
+}
+
+.img-holder {
+   display: flex;
+}
+.img-rank-holder {
+   margin: auto;
+}
+.img {
+   border-radius: 20px;
+   
+}
+
+.img-ticket {
+   width: 90%;
+   height: 90%;
+   margin: auto;
+}
+
+.img-rank {
+   width: 95%;
+   height: 75%;
+}
+
+.img-suggest {
+   width: 85%;
+   height: 90%;
+}
+
+.shadows {
+   box-shadow: 0px 0px 10px 5px #9e9e9e;
+}
+
+.shadows-light {
+   border: 1px solid #b9b9b9;
+   box-shadow: 0px 0px 10px 3px #b9b9b9;
+}
+.bande {
+   display: flex;
+   flex-direction: column;
+   background-color: #44354d;
+   -webkit-box-align: center;
+   align-items: center;
+   padding: 80px 40px;
+}
+
+.footer{
+   background-color: #211a25;
+}

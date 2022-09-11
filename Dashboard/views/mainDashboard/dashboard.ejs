@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/sidebars.css">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css"
+        integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script src="https://kit.fontawesome.com/dead68bbd8.js" crossorigin="anonymous"></script>
+
+
+    <link rel="icon" href="img/Bot.jpg" type="image/icon type">
+    <title>Secrétaire - My Servers</title>
+</head>
+
+<body>
+    <%- include("../templates/svgIcons") -%>
+
+
+    <!--MAIN BODY-->
+    <%- include("../templates/sidebarListServers") -%>
+    <section class="home-section">
+        <div class="d-flex">
+            <h1 class="m-auto pt-5">Your servers</h1>
+        </div>
+        <section class="grid-server">
+
+            <div class="grid" id="home-section">
+                <% includedGuilds.forEach(incGuild=> { %>
+                    <%- include('../templates/serverCardsInc', {incGuild}) -%>
+                        <%})%>
+                            <% excludedGuilds.forEach(exGuild=> { %>
+                                <%- include('../templates/serverCardsExc', {exGuild}) -%>
+                                    <%})%>
+
+
+            </div>
+
+
+        </section>
+
+
+    </section>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js "
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ "
+        crossorigin="anonymous "></script>
+    <script src="/js/sidebarsServerList.js "></script>
+
+    <script type="text/javascript">
+
+        function new_Window(url) {
+            let windows = window.open(url, 'invite', 'width=800, height=800');
+
+        };
+
+    </script>
+
+
+
+
+</body>
+
+</html>

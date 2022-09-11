@@ -1,0 +1,393 @@
+<div class="sidebar scroll-need open" id="sidebar">
+    <div class="logo-details">
+        <div class="logo_name m-auto mt-2" id="pageName">
+            <img src="https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>.png" alt="" width="60"
+                height="60" class="rounded-circle me-2">
+        </div>
+        <i class='bx bx-menu' id="btn"></i>
+    </div>
+    <ul class="nav-list" id="sidebar-list">
+        <li>
+            <a href="/profile">
+                <i class='bx bx-user'></i>
+                <span class="links_name">Profile</span>
+            </a>
+            <span class="tooltip">Profile</span>
+        </li>
+        <li>
+            <a href="/dashboard">
+                <i class='bx bx-server'></i>
+                <span class="links_name">Server List</span>
+            </a>
+            <span class="tooltip">Server List</span>
+        </li>
+        <li>
+            <a href="#">
+                <i class="bi bi-gem"></i>
+                <span class="links_name">Premium</span>
+            </a>
+            <span class="tooltip">Premium</span>
+        </li>
+
+        <li>
+            <a href="/dashboard/<%=guild.id%>" id="sidebar-dashboard-btn">
+                <i class='bx bxs-dashboard'></i>
+                <span class="links_name">Dashboard</span>
+            </a>
+        </li>
+        <li class="d-flex flex-column">
+            <a id='plugins-dropbtn' class="show">
+                <i class='bx bx-category'></i>
+                <span class="links_name">Plugins</span>
+                <i class='links_name bx bx-chevron-up chevron-open ms-auto' id="plugins-dropdown-symbol"></i>
+            </a>
+            <span class="tooltip">Plugins</span>
+            <ul class="fade-in ms-4 " id="plugins-dropdown-list">
+                <li>
+                    <a href=" /dashboard/<%=guild.id %>/plugins/welcome" id="sidebar-welcome-btn">
+                        <i class="bi bi-megaphone"></i>
+                        <span class="links_name">Bienvenue</span>
+                        <i id="welcome-plugin" class='bx bxs-check-circle ms-auto' style='color:#646464'></i>
+                    </a>
+
+                </li>
+                <li>
+                    <a href="/dashboard/<%=guild.id %>/plugins/birthday" id="sidebar-birthday-btn">
+                        <i class='bx bx-calendar-edit'></i>
+                        <span class="links_name">Anniversaires</span>
+                        <i id="birthday-plugin" class='bx bxs-check-circle ms-auto' style='color:#646464'></i>
+                    </a>
+
+
+                </li>
+                <li>
+                    <a href="/dashboard/<%=guild.id %>/plugins/moderator" id="sidebar-moderator-btn">
+
+                        <i class='bx bxs-graduation'></i>
+                        <span class="links_name">Modération</span>
+                        <i id="moderator-plugin" class='bx bxs-check-circle ms-auto' style='color:#646464'></i>
+                    </a>
+
+                </li>
+                <li>
+                    <a href="/dashboard/<%=guild.id %>/plugins/suggest" id="sidebar-suggest-btn">
+                        <i class='bx bx-edit'></i>
+                        <span class="links_name">Suggestions</span>
+                        <i id="suggest-plugin" class='bx bxs-check-circle ms-auto' style='color:#646464'></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="/dashboard/<%=guild.id %>/plugins/temporaryChannel" id="sidebar-temporaryChannel-btn">
+                        <i class="bi bi-mic"></i>
+                        <span class="links_name">Salons Vocaux</span>
+                        <i id="channel-plugin" class='bx bxs-check-circle ms-auto' style='color:#646464'></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="/dashboard/<%=guild.id %>/plugins/leveling" id="sidebar-leveling-btn">
+                        <i class='bx bx-trophy'></i>
+                        <span class="links_name">Niveaux</span>
+                        <i id="leveling-plugin" class='bx bxs-check-circle ms-auto' style='color:#646464'></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="/dashboard/<%=guild.id %>/plugins/supportTicket" id="sidebar-supportTicket-btn">
+                        <i class="bx bxs-coupon"></i>
+                        <span class="links_name">Support Tickets</span>
+                        <i id="ticket-plugin" class='bx bxs-check-circle ms-auto' style='color:#646464'></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="/dashboard/<%=guild.id %>/plugins/stream" id="sidebar-stream-btn">
+                        <i class='bx bxs-bell-ring'></i>
+                        <span class="links_name">Live</span>
+                        <i id="stream-plugin" class='bx bxs-check-circle ms-auto' style='color:#646464'></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="/dashboard/<%=guild.id %>/plugins/economy" id="sidebar-economy-btn">
+                        <i class="bi bi-currency-exchange"></i>
+                        <span class="links_name">Economie</span>
+                        <i id="economy-plugin" class='bx bxs-check-circle ms-auto' style='color:#646464'></i>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="profile">
+            <div class="profile-details">
+                <img src="https://cdn.discordapp.com/avatars/<%= user.discordId %>/<%= user.avatar %>.png" alt=""
+                    width="50" height="50" class="rounded-circle me-3">
+                <div class="name_job">
+                    <div class="name">
+                        <strong>
+                            <%= user.username %>
+                        </strong>
+                    </div>
+                </div>
+            </div>
+            <i class='bx bx-log-out' id="log_out"></i>
+        </li>
+    </ul>
+</div>
+
+<script>
+
+    var str = "<%= guild.name %>";
+    var acronym = str.match(/\b(\w)/g).join('');
+    console.log("<%= guild.name %>", acronym)
+    var span = document.createElement("span");
+    span.textContent = acronym;
+    var holder = document.getElementById("pageName");
+    holder.appendChild(span);
+
+
+    let btn;
+    const sidebarHolder = document.querySelector(".sidebar");
+    const pluginBtn = document.querySelector("#plugins-dropbtn");
+    switch ('<%= url%>') {
+        case "/dashboard/<%= guild.id%>":
+            btn = document.getElementById("sidebar-dashboard-btn");
+            btn.style.backgroundColor = "#C38ED1";
+            btn.firstElementChild.style.color = "black";
+            btn.lastElementChild.style.color = "black";
+            break;
+
+        case "/dashboard/<%= guild.id%>/plugins/welcome":
+            btn = document.getElementById("sidebar-welcome-btn");
+            btn.style.backgroundColor = "#C38ED1";
+            btn.firstElementChild.style.color = "black";
+            btn.children[1].style.color = "black";
+
+
+            sidebarHolder.addEventListener("click", () => {
+                if (!sidebarHolder.classList.contains("open")) {
+
+                    setTimeout(function () {
+                        pluginBtn.style.backgroundColor = "#C38ED1";
+                        pluginBtn.firstElementChild.style.color = "black";
+                    }, 300)
+
+                }
+                else {
+                    pluginBtn.removeAttribute("style");
+                    pluginBtn.firstElementChild.removeAttribute("style");
+
+                }
+            })
+
+
+
+            break;
+
+        case "/dashboard/<%= guild.id%>/plugins/birthday":
+            btn = document.getElementById("sidebar-birthday-btn");
+            btn.style.backgroundColor = "#C38ED1";
+            btn.firstElementChild.style.color = "black";
+            btn.children[1].style.color = "black";
+
+
+            sidebarHolder.addEventListener("click", () => {
+                if (!sidebarHolder.classList.contains("open")) {
+
+                    setTimeout(function () {
+                        pluginBtn.style.backgroundColor = "#C38ED1";
+                        pluginBtn.firstElementChild.style.color = "black";
+                    }, 300)
+
+                }
+                else {
+                    pluginBtn.removeAttribute("style");
+                    pluginBtn.firstElementChild.removeAttribute("style");
+
+                }
+            })
+
+
+
+            break;
+
+        case "/dashboard/<%= guild.id%>/plugins/moderator":
+            btn = document.getElementById("sidebar-moderator-btn");
+            btn.style.backgroundColor = "#C38ED1";
+            btn.firstElementChild.style.color = "black";
+            btn.children[1].style.color = "black";
+
+
+            sidebarHolder.addEventListener("click", () => {
+                if (!sidebarHolder.classList.contains("open")) {
+
+                    setTimeout(function () {
+                        pluginBtn.style.backgroundColor = "#C38ED1";
+                        pluginBtn.firstElementChild.style.color = "black";
+                    }, 300)
+
+                }
+                else {
+                    pluginBtn.removeAttribute("style");
+                    pluginBtn.firstElementChild.removeAttribute("style");
+
+                }
+            })
+
+
+
+            break;
+
+        case "/dashboard/<%= guild.id%>/plugins/suggest":
+            btn = document.getElementById("sidebar-suggest-btn");
+            btn.style.backgroundColor = "#C38ED1";
+            btn.firstElementChild.style.color = "black";
+            btn.children[1].style.color = "black";
+
+
+            sidebarHolder.addEventListener("click", () => {
+                if (!sidebarHolder.classList.contains("open")) {
+
+                    setTimeout(function () {
+                        pluginBtn.style.backgroundColor = "#C38ED1";
+                        pluginBtn.firstElementChild.style.color = "black";
+                    }, 300)
+
+                }
+                else {
+                    pluginBtn.removeAttribute("style");
+                    pluginBtn.firstElementChild.removeAttribute("style");
+
+                }
+            })
+
+
+
+            break;
+
+        case "/dashboard/<%= guild.id%>/plugins/temporaryChannel":
+            btn = document.getElementById("sidebar-temporaryChannel-btn");
+            btn.style.backgroundColor = "#C38ED1";
+            btn.firstElementChild.style.color = "black";
+            btn.children[1].style.color = "black";
+
+
+            sidebarHolder.addEventListener("click", () => {
+                if (!sidebarHolder.classList.contains("open")) {
+
+                    setTimeout(function () {
+                        pluginBtn.style.backgroundColor = "#C38ED1";
+                        pluginBtn.firstElementChild.style.color = "black";
+                    }, 300)
+
+                }
+                else {
+                    pluginBtn.removeAttribute("style");
+                    pluginBtn.firstElementChild.removeAttribute("style");
+
+                }
+            })
+
+
+
+            break;
+
+        case "/dashboard/<%= guild.id%>/plugins/leveling":
+            btn = document.getElementById("sidebar-leveling-btn");
+            btn.style.backgroundColor = "#C38ED1";
+            btn.firstElementChild.style.color = "black";
+            btn.children[1].style.color = "black";
+
+
+            sidebarHolder.addEventListener("click", () => {
+                if (!sidebarHolder.classList.contains("open")) {
+
+                    setTimeout(function () {
+                        pluginBtn.style.backgroundColor = "#C38ED1";
+                        pluginBtn.firstElementChild.style.color = "black";
+                    }, 300)
+
+                }
+                else {
+                    pluginBtn.removeAttribute("style");
+                    pluginBtn.firstElementChild.removeAttribute("style");
+
+                }
+            })
+
+
+
+            break;
+
+        case "/dashboard/<%= guild.id%>/plugins/supportTicket":
+            btn = document.getElementById("sidebar-supportTicket-btn");
+            btn.style.backgroundColor = "#C38ED1";
+            btn.firstElementChild.style.color = "black";
+            btn.children[1].style.color = "black";
+
+
+            sidebarHolder.addEventListener("click", () => {
+                if (!sidebarHolder.classList.contains("open")) {
+
+                    setTimeout(function () {
+                        pluginBtn.style.backgroundColor = "#C38ED1";
+                        pluginBtn.firstElementChild.style.color = "black";
+                    }, 300)
+
+                }
+                else {
+                    pluginBtn.removeAttribute("style");
+                    pluginBtn.firstElementChild.removeAttribute("style");
+
+                }
+            })
+            break;
+
+        case "/dashboard/<%= guild.id%>/plugins/stream":
+            btn = document.getElementById("sidebar-stream-btn");
+            btn.style.backgroundColor = "#C38ED1";
+            btn.firstElementChild.style.color = "black";
+            btn.children[1].style.color = "black";
+
+            sidebarHolder.addEventListener("click", () => {
+                if (!sidebarHolder.classList.contains("open")) {
+                    setTimeout(function () {
+                        pluginBtn.style.backgroundColor = "#C38ED1";
+                        pluginBtn.firstElementChild.style.color = "black";
+                    }, 300)
+                }
+                else {
+                    pluginBtn.removeAttribute("style");
+                    pluginBtn.firstElementChild.removeAttribute("style");
+                }
+            })
+            break;
+
+        case "/dashboard/<%= guild.id%>/plugins/economy":
+            btn = document.getElementById("sidebar-economy-btn");
+            btn.style.backgroundColor = "#C38ED1";
+            btn.firstElementChild.style.color = "black";
+            btn.children[1].style.color = "black";
+
+
+            sidebarHolder.addEventListener("click", () => {
+                if (!sidebarHolder.classList.contains("open")) {
+
+                    setTimeout(function () {
+                        pluginBtn.style.backgroundColor = "#C38ED1";
+                        pluginBtn.firstElementChild.style.color = "black";
+                    }, 300)
+
+                }
+                else {
+                    pluginBtn.removeAttribute("style");
+                    pluginBtn.firstElementChild.removeAttribute("style");
+
+                }
+            })
+
+
+
+            break;
+    }
+
+
+
+
+
+</script>

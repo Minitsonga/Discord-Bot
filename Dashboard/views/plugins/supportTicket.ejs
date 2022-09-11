@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+
+
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/guild_Dashboard.css">
+    <link rel="stylesheet" href="/css/sidebars.css">
+    <link rel="stylesheet" href="/css/switchBtn.css">
+
+
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css"
+        integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="/css/multi-select.css">
+
+    <script src="https://kit.fontawesome.com/dead68bbd8.js" crossorigin="anonymous"></script>
+
+
+    <link rel="icon" href="img/Bot.jpg" type="image/icon type">
+    <title>Secrétaire</title>
+
+</head>
+
+<body>
+    <%- include("../templates/svgIcons") -%>
+
+        <!--MAIN BODY-->
+        <%- include("../templates/sidebarPlugins") -%>
+            <section class="home-section">
+                <h1 class="ps-3 pt-4 pb-5">Plugins</h1>
+                <section class="stats">
+                    <div class="container py-4">
+                        <header class="pb-3 mb-4 border-bottom">
+                            <div class="d-flex align-items-center text-white text-decoration-none">
+                                <svg class="bi me-4" width="3em" height="3em">
+                                    <use xlink:href="#ticket-perferated-fill" />
+                                </svg>
+                                <span class="fs-1">Support Ticket</span>
+                                <div class="ms-auto">
+                                    <label class="switch" id="togBtn">
+                                        <input type="checkbox" onclick="toggle()" id="switch">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </header>
+                        <p>Ajoutez un système de ticket pour répondre aux problèmes que les membres du serveur
+                            pourraient rencontrer</p>
+                        <div class="p-4 mb-4 bg-purple rounded-3">
+                            <div class="container-fluid">
+                                <div class="d-flex flex-column">
+                                    <div class="row mb-4">
+                                        <div class="col mb-3">
+                                            <h4><b>Nom des tickets</b></h4>
+                                            <p>Choisissez le nom qu'auront tous les salons de ticket</p>
+
+                                            <div class="select-title">Nom des salons de ticket</div>
+
+                                            <% if(ticketName){ %>
+                                                <input class="auto-text" style="width: 300px;" name="message"
+                                                    id="message" placeholder="<%= ticketName%>"
+                                                    value="<%= ticketName%>">
+
+                                                <% }else {%>
+                                                    <input class="auto-text" name="message" id="message"
+                                                        placeholder="ticket-{index}" value="ticket-{index}">
+
+
+                                                    <%}%>
+                                                        <p id="error-message" style="display: none;">Au moins 1
+                                                            caractère est requis
+                                                        </p>
+                                                        <a id="infoButtonTextArea" title='Info about "{element}"'>
+                                                            <svg class="bi" width="1.2em" height="1.2em">
+                                                                <use xlink:href="#info-circle" />
+                                                            </svg>
+                                                        </a>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row mb-3">
+                                        <div class="col mb-3">
+                                            <h4><b>Salon Support</b></h4>
+                                            <p>Choisissez un salon qui générera, grâce a bouton, les salons
+                                                des
+                                                tickets</p>
+                                            <div class="select-title">Salon créateur de ticket
+                                            </div>
+                                            <div class="custom-select" style="width: 300px;">
+                                                <select aria-label="Channel Selector" id="supportTicket-select"
+                                                    name="supportTicket-select">
+                                                    <% if(!supportTicketChannelID ||
+                                                        supportTicketChannelID==='undefined' ){ %>
+                                                        <option value='undefined' disabled selected hidden>
+                                                            Selectionner
+                                                            un
+                                                            salon...
+                                                        </option>
+                                                        <% }%>
+                                                            <% guildStats.channels.forEach(channel=> { %>
+                                                                <% if(channel.id===supportTicketChannelID ){ %>
+                                                                    <option value='<%= supportTicketChannelID %>'
+                                                                        selected hidden>
+                                                                        # <%- channel.name -%>
+                                                                    </option>
+
+                                                                    <% }%>
+                                                                        <%})%>
+
+                                                                            <% guildStats.channels.forEach(channel=>
+                                                                                {
+                                                                                %>
+                                                                                <% if(channel.type=='GUILD_TEXT' ){ %>
+                                                                                    <%- include('../templates/textChannelList',
+                                                                                        {channel}) -%>
+                                                                                        <% }%>
+                                                                                            <%})%>
+                                                </select>
+
+
+                                            </div>
+                                            <p id="error-auto-select" style="display: none;">Champs
+                                                obligatoire</p>
+                                        </div>
+
+                                        <div class="col">
+                                            <h4><b>Rôle Support</b></h4>
+                                            <p>Choisissez le rôle qui sera mentionné lors de l'ouverture
+                                                d'un
+                                                ticket
+                                            </p>
+                                            <div class="select-title">Support Role</div>
+                                            <div class="custom-select" style="width: 300px;">
+                                                <select aria-label="Channel Selector" id="supportRole-select"
+                                                    name="supportRole-select">
+                                                    <% if(!supportRole){ %>
+                                                        <option value='undefined' disabled selected hidden>
+                                                            Selectionner
+                                                            un
+                                                            role...
+                                                        </option>
+                                                        <% }%>
+                                                            <% guildStats.guildRoles.forEach(role=> { %>
+                                                                <%- include('../templates/rolesList', {role}) -%>
+                                                                    <%})%>
+                                                </select>
+
+
+                                            </div>
+                                            <p id="error-role-select" style="display: none;">Champs
+                                                obligatoire</p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <h4><b>Catégorie des ticket</b></h4>
+                                    <p>Choisissez une catégorie dans laquelle les tickets seront créé</p>
+                                    <div class="select-title">Catégorie contenant les tickets
+                                    </div>
+                                    <div class="custom-select" style="width: 350px; transform: rotate(180deg);">
+                                        <select aria-label="Channel Selector" id="ticketCategory-select"
+                                            name="supportTicket-select">
+                                            <% if(!categoryTicket || categoryTicket==='undefined' ){ %>
+                                                <option value='undefined' disabled selected hidden>
+                                                    Selectionner
+                                                    une
+                                                    catégorie...
+                                                </option>
+                                                <% }%>
+                                                    <% guildStats.channels.forEach(channel=> { %>
+                                                        <% if(channel.id===categoryTicket ){ %>
+                                                            <option value='<%= categoryTicket %>' selected hidden>
+                                                                # <%- channel.name -%>
+                                                            </option>
+
+                                                            <% }%>
+                                                                <%})%>
+                                                                    <% guildStats.channels.forEach(channel=>
+                                                                        { %>
+                                                                        <% if(channel.type=='GUILD_CATEGORY' ){ %>
+                                                                            <%- include('../templates/textChannelList',
+                                                                                {channel}) -%>
+                                                                                <% }%>
+                                                                                    <%})%>
+                                        </select>
+                                    </div>
+
+                                    <p id="error-category-select" style="display: none;">Champs
+                                        obligatoire</p>
+                                    <div class="align-items-center mx-auto pt-4">
+                                        <button type="submit" id="save" style="outline: none;" class="btn btn-bg-other">
+                                            <span>Enregistrer</span>
+                                            <div class="loader" id="loader-spinner" style="display: none;">
+                                            </div>
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                </section>
+
+
+
+            </section>
+
+            <div class="container p-4 bg-purple-normal rounded-3 apply-btn-holder" id="helpTextArea"
+                style="width: auto;">
+                <div class="apply-btn-inside text-white flex-column">
+                    <p>{user} -> Mentionner avec @ l'utilisateur</p>
+                    <p>{username} -> Affiche l'username de l'utilisateur</p>
+                    <p>{server} -> Affiche le nom du serveur</p>
+                    <p>{index} -> Affiche le numéro du salon temporaire</p>
+                    <div class="d-flex justify-content-center">
+                        <a class="btn bg-purple-animation text-white ms-3" id="validInfo">Ok</a>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="container p-4 bg-purple-normal rounded-3 apply-btn-holder" id="holderPluginDesactivation"
+                style="width: auto;">
+                <div class="apply-btn-inside text-white flex-column">
+                    <strong style="font-size: 20px;">Attention !</strong>
+                    <br>
+                    <p>Voulez vous vraiment désactiver le plugin ?</p>
+                    <div class="flex-row">
+                        <a href="#" class="btn bg-outline-lighter me-3" id="desabledPlugin">
+                            <span>Désactiver</span>
+                            <div class="loader" id="loader-spinner-popup" style="display: none;"></div>
+                        </a>
+                        <a type="submit" class="btn bg-purple-animation text-white ms-3"
+                            id="cancelDesactivateBtn">Annuler</a>
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="overlay"></div>
+
+
+
+            <script src="/js/desactivatePlugin.js"></script>
+
+            <script>
+                desabledPlugin.addEventListener("click", () => {
+
+                    document.getElementById("loader-spinner-popup").previousElementSibling.style.display = "none";
+                    document.getElementById("loader-spinner-popup").style.display = "block";
+                    let data = { plugin: plugin.checked };
+
+                    fetch("supportTicket", {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        method: "POST",
+                        body: JSON.stringify(data)
+                    }).then((res) => {
+                        console.log("done", res);
+                        document.getElementById("loader-spinner-popup").style.display = "none";
+                        document.getElementById("loader-spinner-popup").previousElementSibling.removeAttribute("style");
+                        closePopUp(desabledPluginPopUpHolder);
+                    });
+                })
+
+            </script>
+
+
+            <script>
+
+                function toggle() {
+                    if (document.getElementById("switch").checked) {
+
+                        document.getElementById("ticket-plugin").style.color = '#089402';
+                        console.log('activated');
+                        document.getElementById("save").removeAttribute("style");
+
+                    }
+                    else {
+                        document.getElementById("save").style.display = "none";
+                        openPopUp(desabledPluginPopUpHolder);
+                        document.getElementById("ticket-plugin").style.color = '#646464';
+                    }
+                }
+
+
+            </script>
+
+
+            <script src="/js/multi-select-min.js"></script>
+
+            <script>
+                var x, i, j, l, ll, selElmnt, a, b, c;
+                /* Look for any elements with the class "custom-select": */
+                x = document.getElementsByClassName("custom-select");
+                l = x.length;
+                for (i = 0; i < l; i++) {
+                    selElmnt = x[i].getElementsByTagName("select")[0];
+                    ll = selElmnt.length;
+                    /* For each element, create a new DIV that will act as the selected item: */
+                    a = document.createElement("DIV");
+                    a.setAttribute("class", "select-selected");
+                    a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
+                    x[i].appendChild(a);
+                    /* For each element, create a new DIV that will contain the option list: */
+                    b = document.createElement("DIV");
+                    b.setAttribute("class", "select-items select-hide");
+                    for (j = 1; j < ll; j++) {
+                        /* For each option in the original select element,
+                        create a new DIV that will act as an option item: */
+                        c = document.createElement("DIV");
+                        c.innerHTML = selElmnt.options[j].innerHTML;
+                        c.addEventListener("click", function (e) {
+                            /* When an item is clicked, update the original select box,
+                            and the selected item: */
+                            var y, i, k, s, h, sl, yl;
+                            s = this.parentNode.parentNode.getElementsByTagName("select")[0];
+                            sl = s.length;
+                            h = this.parentNode.previousSibling;
+                            for (i = 0; i < sl; i++) {
+                                if (s.options[i].innerHTML == this.innerHTML) {
+                                    s.selectedIndex = i;
+                                    h.innerHTML = this.innerHTML;
+                                    y = this.parentNode.getElementsByClassName("same-as-selected");
+                                    yl = y.length;
+                                    for (k = 0; k < yl; k++) {
+                                        y[k].removeAttribute("class");
+                                    }
+                                    this.setAttribute("class", "same-as-selected");
+                                    break;
+                                }
+                            }
+                            h.click();
+                        });
+                        b.appendChild(c);
+                    }
+                    x[i].appendChild(b);
+                    a.addEventListener("click", function (e) {
+                        /* When the select box is clicked, close any other select boxes,
+                        and open/close the current select box: */
+                        e.stopPropagation();
+                        closeAllSelect(this);
+                        this.nextSibling.classList.toggle("select-hide");
+                        this.classList.toggle("select-arrow-active");
+                    });
+                }
+
+                function closeAllSelect(elmnt) {
+                    /* A function that will close all select boxes in the document,
+                    except the current select box: */
+                    var x, y, i, xl, yl, arrNo = [];
+                    x = document.getElementsByClassName("select-items");
+                    y = document.getElementsByClassName("select-selected");
+                    xl = x.length;
+                    yl = y.length;
+                    for (i = 0; i < yl; i++) {
+                        if (elmnt == y[i]) {
+                            arrNo.push(i)
+                        } else {
+                            y[i].classList.remove("select-arrow-active");
+                        }
+                    }
+                    for (i = 0; i < xl; i++) {
+                        if (arrNo.indexOf(i)) {
+                            x[i].classList.add("select-hide");
+                        }
+                    }
+                }
+
+                /* If the user clicks anywhere outside the select box,
+                then close all select boxes: */
+                document.addEventListener("click", closeAllSelect);
+            </script>
+
+
+            <script>
+                const saveBtn = document.querySelector("#save");
+                const plugin = document.querySelector("#switch");
+                const nameTicketChannel = document.querySelector("#message")
+                const supportChannel = document.querySelector("#supportTicket-select")
+                const ticketCategory = document.querySelector("#ticketCategory-select")
+                const supportRole = document.querySelector("#supportRole-select")
+                console.log(saveBtn);
+
+                saveBtn.addEventListener("click", () => {
+
+
+                    console.log("plugin", plugin.checked);
+
+                    console.log("nameChannels", nameTicketChannel.value);
+                    console.log("channelCreator", supportChannel.value);
+                    console.log("supportRole", supportRole.value);
+                    console.log("ticketCategory", ticketCategory.value);
+
+
+                    if (nameTicketChannel.value === '') {
+                        console.log("error");
+                        document.getElementById("message").setAttribute("style", "border: 3px solid red");
+                        document.getElementById("error-message").style.display = "block";
+                        document.getElementById("error-message").style.fontSize = "12px";
+                        document.getElementById("error-message").style.color = "red";
+                    }
+                    else {
+                        document.getElementById("message").removeAttribute("style");
+                        document.getElementById("error-message").style.display = "none";
+                    }
+
+                    if (supportChannel.value === 'undefined') {
+                        console.log("error");
+                        document.getElementsByClassName("select-selected")[0].setAttribute("style", "border: 3px solid red");
+                        document.getElementById("error-auto-select").style.display = "block";
+                        document.getElementById("error-auto-select").style.fontSize = "12px";
+                        document.getElementById("error-auto-select").style.color = "red";
+                    }
+                    else {
+                        document.getElementsByClassName("select-selected")[0].removeAttribute("style");
+                        document.getElementById("error-auto-select").style.display = "none";
+                    }
+
+                    if (supportRole.value === 'undefined') {
+                        console.log("error");
+                        document.getElementsByClassName("select-selected")[1].setAttribute("style", "border: 3px solid red");
+                        document.getElementById("error-role-select").style.display = "block";
+                        document.getElementById("error-role-select").style.fontSize = "12px";
+                        document.getElementById("error-role-select").style.color = "red";
+                    }
+                    else {
+                        document.getElementsByClassName("select-selected")[1].removeAttribute("style");
+                        document.getElementById("error-role-select").style.display = "none";
+                    }
+
+                    if (ticketCategory.value === 'undefined') {
+                        console.log("error");
+                        document.getElementsByClassName("select-selected")[2].setAttribute("style", "border: 3px solid red; transform: rotate(180deg);");
+                        document.getElementById("error-category-select").style.display = "block";
+                        document.getElementById("error-category-select").style.fontSize = "12px";
+                        document.getElementById("error-category-select").style.color = "red";
+                    }
+                    else {
+                        document.getElementsByClassName("select-selected")[2].removeAttribute("style");
+                        document.getElementsByClassName("select-selected")[2].setAttribute("style", "transform: rotate(180deg);");
+                        document.getElementById("error-category-select").style.display = "none";
+                    }
+
+                    if (plugin.checked && nameTicketChannel.value !== '' && supportChannel.value !== 'undefined' && supportRole.value !== 'undefined' && ticketCategory.value !== 'undefined') {
+
+                        document.getElementById("loader-spinner").previousElementSibling.setAttribute("style", "display: none;");
+                        document.getElementById("loader-spinner").style.display = "block";
+                        let data = { plugin: plugin.checked, nameTicketChannel: nameTicketChannel.value, channel_ID: supportChannel.value, categoryTicket: ticketCategory.value, supportRole: supportRole.value };
+
+                        fetch("supportTicket", {
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            method: "POST",
+                            body: JSON.stringify(data)
+                        }).then((res) => {
+                            console.log("done", res);
+                            document.getElementById("loader-spinner").style.display = "none";
+                            document.getElementById("loader-spinner").previousElementSibling.removeAttribute("style");
+                        });
+                    }
+                });
+
+            </script>
+
+            <script>
+                document.getElementsByClassName("select-selected")[2].setAttribute("style", "transform: rotate(180deg);")
+                document.getElementsByClassName("select-items")[2].setAttribute("style", "transform: rotate(180deg);")
+            </script>
+
+            <script>
+                const checkIconPlugins = document.querySelectorAll(".bxs-check-circle");
+
+                console.log("here");
+                console.log(checkIconPlugins);
+                checkIconPlugins.forEach(pluginsIcon => {
+
+                    switch (pluginsIcon.id) {
+                        case 'welcome-plugin':
+                            document.getElementById(pluginsIcon.id).style.color = ('<%= pluginsData.welcome %>' === 'true') ? '#089402' : '#646464';
+                            break;
+                        case 'birthday-plugin':
+                            document.getElementById(pluginsIcon.id).style.color = ('<%= pluginsData.birthday %>' === 'true') ? '#089402' : '#646464';
+
+                            break;
+                        case 'moderator-plugin':
+                            document.getElementById(pluginsIcon.id).style.color = ('<%= pluginsData.moderator %>' === 'true') ? '#089402' : '#646464';
+
+                            break;
+
+                        case 'suggest-plugin':
+                            document.getElementById(pluginsIcon.id).style.color = ('<%= pluginsData.suggestion %>' === 'true') ? '#089402' : '#646464';
+
+                            break;
+
+                        case 'channel-plugin':
+                            document.getElementById(pluginsIcon.id).style.color = ('<%= pluginsData.channelManager %>' === 'true') ? '#089402' : '#646464';
+
+                            break;
+
+                        case 'leveling-plugin':
+                            document.getElementById(pluginsIcon.id).style.color = ('<%= pluginsData.leveling %>' === 'true') ? '#089402' : '#646464';
+                            break;
+
+                        case 'ticket-plugin':
+                            document.getElementById(pluginsIcon.id).style.color = ('<%= pluginsData.supportTicket %>' === 'true') ? '#089402' : '#646464';
+                            if (!document.getElementById("switch").checked && '<%= pluginsData.supportTicket %>' === 'true') {
+                                console.log('activated');
+                                document.getElementById("switch").checked = true;
+                            }
+                            break;
+
+                        case 'stream-plugin':
+                            document.getElementById(pluginsIcon.id).style.color = ('<%= pluginsData.stream %>' === 'true') ? '#089402' : '#646464';
+                            break;
+
+                        case 'economy-plugin':
+                            document.getElementById(pluginsIcon.id).style.color = ('<%= pluginsData.economy %>' === 'true') ? '#089402' : '#646464';
+                            break;
+
+
+                        default:
+                            this.style.color = '#646464';
+                            break;
+                    }
+                })
+
+            </script>
+
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js "
+                integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ "
+                crossorigin="anonymous "></script>
+            <script src="/js/sidebars.js "></script>
+
+
+
+
+</body>
+
+</html>

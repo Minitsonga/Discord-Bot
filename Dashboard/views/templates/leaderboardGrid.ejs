@@ -1,0 +1,22 @@
+<div class="col-md-6 my-3" style="width: 100%;">
+    <div class="h-100 p-4 text-white bg-purple-normal rounded-3">
+        <div class="row leaderboard-col">
+            <div class="col my-auto">
+
+                <h2 style="font-size: calc(2vw - 2px);">
+                    <img src="https://cdn.discordapp.com/avatars/<%= userboard.userID %>/<%= userboard.avatar %>.png"
+                        alt="" width="15%" height="15%" class="rounded-circle me-2"> <%= userboard.username %>
+                </h2>
+            </div>
+            <div class="col-4 my-auto ">
+                <h2 class="d-flex justify-content-center" style="font-size: calc(2vw - 2px);"> Lvl : <%= userboard.cur_Level%>
+                </h2>
+            </div>
+            <div class="col-4 my-auto">
+                <h2 class="d-flex justify-content-end" style="font-size: calc(2vw - 2px);">
+                    <%= userboard.cur_XP %> / <%= userboard.max_XP %> XP
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/mainMenu.css">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css"
+        integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script src="https://kit.fontawesome.com/dead68bbd8.js" crossorigin="anonymous"></script>
+
+    <link rel="icon" href="img/Bot.jpg" type="image/icon type">
+    <title>Secrétaire</title>
+</head>
+
+<body onload="isLogin('<%= user %>')">
+
+    <!--HEADER-->
+    <%- include('../templates/headerMenu'); -%>
+
+        <!--MAIN BODY-->
+        <section>
+            <div class="d-flex justify-content-center head">
+                <h1><b>Créez votre serveur facilement avec Secrétaire</b></h1>
+            </div>
+            <div class="d-flex justify-content-center subtext">
+                <p>Un vrai professionel qui pourra repondre à tous vos besoins</p>
+            </div>
+            <div class="buttons">
+                <button class="btn btn-addBot bt" style="margin-top: 10px;"
+                    onclick="javascript:new_Window('https://discord.com/api/oauth2/authorize?client_id=885205148924792863&permissions=8&redirect_uri=http%3A%2F%2Flocalhost%3A3001%2Fauth%2Fdiscord%2Fredirect&scope=bot%20applications.commands');"
+                    type="button">
+                    <b>Ajouter à Discord</b>
+                </button>
+                <button id="login2" onclick="location.href='/dashboard'" style="margin-top: 10px;"
+                    class="btn btn-connect bt" type="button">
+                    <b id="text2" class="text-white">Dashboard</b>
+                </button>
+            </div>
+            <div class="d-flex justify-content-center subtext-1"></div>
+
+        </section>
+
+        <section id="demo-section">
+            <h2 id="tmpChannel" class="text-white text-center pt-4"><b>Salons vocaux temporaires</b></h2>
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-md-6 mt-4 pt-4">
+                        <p> Une fois le salon "créateur" enregistré, je peux créer des salons à volonté. <br />
+                            L'utilisateur qui créer le salon pourra modifier l'accès à son salon, en le rendant privé,
+                            et modifier le nom du salon.
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <img id="channel_gif" class="shadows" src="/media/Channel_manager.gif">
+                    </div>
+                </div>
+            </div>
+            <h3 class="text-white text-center"><b>Commandes</b></h3>
+            <div class="container">
+                <div class="row d-flex justify-content-around">
+
+                    <div class="card mb-5 bg-black bg-opacity-25 shadows-light" style="width: 20rem; height:16rem;">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Lock and Unlock</h5>
+                            <hr>
+                            <p class="card-text text-size">Le créateur du salon pourra modifier l'accès aux autres
+                                membres du
+                                serveur. <br /> Seul lui aura accès à cette commande
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card mb-5 bg-black bg-opacity-25 shadows-light" style="width: 20rem; height:16rem;">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Rename</h5>
+                            <hr>
+                            <p class="card-text">Le créateur du salon pourra changer le nom de son salon. <br />
+                                Seul lui aura accès à cette commande</p>
+                        </div>
+                    </div>
+
+                    <div class="card mb-5 bg-black bg-opacity-25 shadows-light" style="width: 20rem; height:16rem;">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Custom permissions</h5>
+                            <hr>
+                            <p class="card-text">
+                                Le propriétaire du serveur pourra choisir quels rôles ne seront pas affectés par
+                                ces permissions. </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="container">
+                <h2 id="tickets" class="text-white text-center pb-5"><b>Système de Ticket</b></h2>
+                <div class="row">
+                    <div class="col-md-6 mt-5 mt-5 pt-4">
+                        <p> Créer un ticket permettra de faire appel à un rôle spécifique, généralement un rôle de
+                            "team support" ou modérateur.
+                            <br /><br />
+                            Un seul ticket peut être ouvert en même temps par le même membre. <b>Mais attention aux
+                                tickets inutiles !</b>
+                        </p>
+                    </div>
+                    <div class="col-md-6 flex-row">
+                        <img class="img img-ticket shadows" src="/img/Support_Ticket_Screen.png">
+                    </div>
+                    <h4 class="text-center pt-5">Tous les tickets ouverts pourront être supprimés, mais seulement par
+                        les rôles que le propriétaire du serveur aura choisi.</h4>
+
+                </div>
+            </div>
+
+            <div class="container">
+                <h2 id="lvl_rank" class="text-white text-center pb-5"><b>Niveaux et ranks</b></h2>
+                <div class="row">
+                    <div class="col-md-6 pt-3">
+                        <p> Chaque membre qui parle dans les salons textuels recevra de l'expérience. Plus une
+                            personne parle, plus elle gagnera de l'expérience et montera en niveau !
+                            <br />
+                            Il sera disponible d'afficher son niveau et son classement au sein du serveur grâce à
+                            une bannière d’XP personnalisable, propre à chaque membre.
+                            <br />
+                            Un Leaderboard montrant le TOP 10 au maximum sera à la disposition de tout le monde.
+                        </p>
+                    </div>
+                    <div class="col-md-6 img-holder img-rank-holder">
+                        <img class="img img-rank shadows"
+                            src="img/rank.png">
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <h2 id="suggestion" class="text-white text-center pb-5"><b>Système de Sugesstion</b></h2>
+                <div class="row">
+                    <div class="col-md-6 mt-5 pt-3">
+                        <p> Une fois un salon spécifique choisi, tous les membres du serveur pourront partager leurs
+                            idées et voter pour les idées les plus pertinantes.
+                            <br> <br>
+                            Grâce au titre de la suggestion, les idées pourront être catégorisé pour une meilleure
+                            gestion des demandes de la communauté
+                        </p>
+                    </div>
+                    <div class="col-md-6 img-holder">
+                        <img class="img img-suggest shadows" src="/img/Suggest_screen.png">
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+        <div class="bande">
+            <h1 class="text-center m-auto" style="padding: 20px; width: 55%;">Personnalise ton serveur Discord
+                gratuitement</h1>
+            <form class="d-flex">
+                <button
+                    onclick="javascript:new_Window('https://discord.com/api/oauth2/authorize?client_id=885205148924792863&permissions=8&redirect_uri=http%3A%2F%2Flocalhost%3A3001%2Fauth%2Fdiscord%2Fredirect&scope=bot%20applications.commands');"
+                    class="btn btn-addBot bt-1" type="button">
+                    <b>Ajouter à Discord</b>
+                </button>
+            </form>
+        </div>
+
+        <footer class="footer text-center text-white-50">
+            <div class="container" style="padding: 20px 20px">Copyright (c) Secretaire 2021</div>
+        </footer>
+
+
+
+        <!--JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous">
+            </script>
+
+        <script src="/js/loginAdaptButton.js"></script>
+
+
+        <script type="text/javascript">
+
+
+            function new_Window(url) {
+                window.open(url, 'invite', 'width=800, height=800');
+
+            };
+
+
+
+        </script>
+</body>
+
+</html>

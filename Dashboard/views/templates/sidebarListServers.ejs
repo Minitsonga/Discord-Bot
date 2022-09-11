@@ -1,0 +1,47 @@
+<div class="sidebar">
+    <div class="logo-details">
+        <div class="logo_name m-auto" id="pageName">
+            Servers
+        </div>
+        <i class='bx bx-menu' id="btn"></i>
+    </div>
+    <ul class="nav-list">
+
+        <li>
+            <a href="/profile">
+                <i class='bx bx-user'></i>
+                <span class="links_name">Profile</span>
+            </a>
+            <span class="tooltip">Profile</span>
+        </li>
+        <li>
+            <a href="/dashboard">
+                <i class='bx bx-server'></i>
+                <span class="links_name">Servers List</span>
+            </a>
+            <span class="tooltip">Servers List</span>
+        </li>
+
+        <li>
+            <a href="#">
+                <i class="bi bi-gem"></i>
+                <span class="links_name">Premium</span>
+            </a>
+            <span class="tooltip">Premium</span>
+        </li>
+        <li class="profile">
+            <div class="profile-details">
+                <img src="https://cdn.discordapp.com/avatars/<%= user.discordId %>/<%= user.avatar %>.png" alt=""
+                    width="50" height="50" class="rounded-circle me-3">
+                <div class="name_job">
+                    <div class="name">
+                        <strong>
+                            <%= user.username %>
+                        </strong>
+                    </div>
+                </div>
+            </div>
+            <i class='bx bx-log-out' id="log_out"></i>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/guild_Dashboard.css">
+    <link rel="stylesheet" href="/css/sidebars.css">
+    <link rel="stylesheet" href="/css/switchBtn.css">
+
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css"
+        integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/monolith.min.css" />
+
+    <script src="https://kit.fontawesome.com/dead68bbd8.js" crossorigin="anonymous"></script>
+
+    <link rel="icon" href="img/Bot.jpg" type="image/icon type">
+    <title>Secrétaire - <%=user.username%></title>
+
+</head>
+
+<body>
+    <%- include("../templates/svgIcons") -%>
+
+        <!--MAIN BODY-->
+        <div class="sidebar">
+            <div class="logo-details">
+
+                <div class="logo_name m-auto" id="pageName">
+                    <img src="https://cdn.discordapp.com/avatars/<%= user.discordId %>/<%= user.avatar %>.png" alt=""
+                        width="60" height="60" class="rounded-circle mt-1">
+
+                </div>
+                <i class='bx bx-menu' id="btn"></i>
+            </div>
+            <ul class="nav-list">
+
+                <li>
+                    <a href="/profile">
+                        <i class='bx bx-user'></i>
+                        <span class="links_name">Profile</span>
+                    </a>
+                    <span class="tooltip">Profile</span>
+                </li>
+                <li>
+                    <a href="/dashboard">
+                        <i class='bx bx-server'></i>
+                        <span class="links_name">Servers List</span>
+                    </a>
+                    <span class="tooltip">Servers List</span>
+                </li>
+
+                <li>
+                    <a href="#">
+                        <i class="bi bi-gem"></i>
+                        <span class="links_name">Premium</span>
+                    </a>
+                    <span class="tooltip">Premium</span>
+                </li>
+                <li class="profile">
+                    <div class="profile-details">
+                        <img src="https://cdn.discordapp.com/avatars/<%= user.discordId %>/<%= user.avatar %>.png"
+                            alt="" width="50" height="50" class="rounded-circle me-3">
+                        <div class="name_job">
+                            <div class="name">
+                                <strong>
+                                    <%= user.username %>
+                                </strong>
+                            </div>
+                        </div>
+                    </div>
+                    <i class='bx bx-log-out' id="log_out"></i>
+                </li>
+            </ul>
+        </div>
+        <section class="home-section">
+
+            <section class="stats">
+                <div class="container py-4">
+                    <header class="pb-3 mb-4 border-bottom">
+                        <div class="d-flex align-items-center text-white text-decoration-none">
+                            <svg class="bi me-4" width="3em" height="3em">
+                                <use xlink:href="#user-light" />
+                            </svg>
+                            <span class="fs-1">Profile</span>
+
+                        </div>
+                    </header>
+                    <div class="p-4 mb-4 bg-purple rounded-3">
+                        <div class="container-fluid">
+                            <div class="d-flex flex-column">
+                                <h4><b>Personnalise ta bannière de Rank</b></h4>
+                                <p class="descriptionOptions">Personnalise ta bannière. Les modifications seront les
+                                    mêmes dans tous les serveurs où le plugin sera activé</p>
+                                <div class="row mb-3">
+                                    <div class="col mb-4">
+                                        <h6>Tu peux personnaliser la bannière en changeant la couleur ou même
+                                            l'image de fond !</h6>
+                                        <div class="color-picker"></div>
+                                    </div>
+
+                                    <div class="col">
+                                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink" width="440px" height="150px">
+
+                                            <rect id="rect" width="100%" height="100%" rx="3" ry="3"
+                                                style="fill:#23272A;"></rect>
+                                            <!-- Rounded rectangle in the center -->
+                                            <rect x="10" y="10" rx="3" ry="3" width="420px" height="130px"
+                                                style="fill:black;opacity:0.75;"></rect>
+                                            <!-- === Avatar. ===
+                                                         Radius of circle = rc = 40px
+                                                         Width of circle = height of circle = rc * 2 = 80px
+                                                         margin left of avatar = mla = 21px
+                                                         margin top of avatar = mta = 31px -->
+                                            <!-- Border of avatar.
+                                                         This border is made by a frame that is bigger than the avatar and behind it
+                                                         centered at the same point.
+                                                
+                                                         Width of border = wb = 4px
+                                                         Radius of border = rb = rc + wb/2 = 42px
+                                                          
+                                                        -->
+
+                                            <clipPath id="clipCircle">
+                                                <!-- cx = mla + r = 21 + 40 = 61
+                                                                 cy = mta + r = 31 + 40 = 71 -->
+                                                <circle r="19" cx="220" cy="35"></circle>
+                                                <circle r="38" cx="65" cy="75"></circle>
+                                            </clipPath>
+
+                                            <circle r="20" cx="220" cy="35" style="fill: rgb(255, 255, 255);">
+                                            </circle>
+
+                                            <circle r="40" cx="65" cy="75" style="fill: rgb(255, 255, 255);">
+                                            </circle>
+
+
+                                            <image x="25" y="35" width="80" height="80" clip-path="url(#clipCircle)"
+                                                xlink:href="https://cdn.discordapp.com/avatars/<%= user.discordId %>/<%= user.avatar %>.png">
+                                            </image>
+                                            <image x="200" y="16" width="40" height="40" clip-path="url(#clipCircle)"
+                                                xlink:href="/img/laexo_icon.png">
+                                            </image>
+
+
+                                            <!-- Rank and level -->
+                                            <text x="310" y="35" font-size="20" text-anchor="middle"
+                                                style="stroke: black; stroke-width: 0.3px">
+                                                <tspan class="font-calibri" fill="white">
+                                                    RANK
+                                                </tspan>
+                                            </text>
+                                            <text x="310" y="65" font-size="25" text-anchor="middle">
+                                                <tspan class="font-calibri" fill="white" id="rankUser">
+                                                    #1
+                                                </tspan>
+
+                                            </text>
+
+                                            <text x="380" y="35" font-size="20" text-anchor="middle"
+                                                style="stroke: black; stroke-width: 0.3px">
+                                                <tspan class="font-calibri" fill="white">
+                                                    LEVEL
+                                                </tspan>
+
+                                            </text>
+                                            <text x="380" y="65" font-calibri font-size="30" text-anchor="middle"
+                                                style="font-weight: bold;">
+                                                <tspan class="custom-color-card font-calibri" style="fill: #0073ff"
+                                                    id="levelUser">
+                                                    1
+                                                </tspan>
+
+                                            </text>
+
+
+                                            <!-- Username + tag -->
+                                            <text x="125" y="100" class="font-calibri" font-size="20" fill="white">
+                                                <%= user.username%>
+                                            </text>
+
+
+                                            <!-- === Progress bar === -->
+                                            <!-- simulate an outer stroke -->
+                                            <rect x="123" y="107.5" rx="11" ry="11" width="285" height="20"
+                                                style="fill:black;"></rect>
+                                            <!-- background color of progress bar-->
+                                            <rect x="125" y="110" rx="9" ry="9" width="280" height="15"
+                                                style="fill:#424242;"></rect>
+
+
+                                            <!-- actual progress bar.
+                                                         be careful when computing width: full width is 316px.
+                                                         Minimum width should be either 0px or 18px for better looking because of border radius -->
+                                            <rect x="125" y="110" rx="9" ry="9" width="140" height="15"
+                                                class="custom-color-card" style="fill:#0073ff;"></rect>
+
+                                            <!-- Exp points -->
+                                            <text x="275" y="123" font-family="Calibri" font-size="15" fill="white"
+                                                text-anchor="middle">
+                                                <tspan class="font-calibri">
+                                                    50 / 100 XP
+                                                </tspan>
+                                            </text>
+
+                                        </svg>
+                                    </div>
+                                </div>
+
+                                <div class="align-items-center mx-auto">
+                                    <button type="submit" id="save" style="outline: none;" class="btn btn-bg-other">
+                                        <span>Enregistrer</span>
+                                        <div class="loader" id="loader-spinner" style="display: none;"></div>
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+        </section>
+        <div class="container p-4 bg-purple-normal rounded-3 apply-btn-holder" id="holderApply" style="width: auto;">
+            <div class="apply-btn-inside text-white flex-column">
+                <strong style="font-size: 20px;">Attention !</strong>
+                <br>
+                <p>Vous n'avez pas activé le plugin !</p>
+                <a type="submit" class="btn bg-purple-animation text-white" id="cancelBtn">Modifier</a>
+            </div>
+        </div>
+
+        <div id="overlay"></div>
+
+        <!-- Modern or es5 bundle -->
+        <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
+
+        <script src="/js/multi-select-min.js"></script>
+
+        <script>
+            let hexaColor = "<%= userCardColor %>";
+            const changableColor = document.querySelectorAll(".custom-color-card");
+
+            changableColor.forEach(element => {
+                element.style.fill = hexaColor;
+            })
+            // Simple example, see optional options for more configuration.
+            const pickr = Pickr.create({
+                el: '.color-picker',
+                theme: 'monolith', // or 'monolith', or 'nano', or'classic
+                default: hexaColor,
+                swatches: [
+                    'rgba(244, 67, 54, 1)',
+                    'rgba(233, 30, 99, 1)',
+                    'rgba(156, 39, 176, 1)',
+                    'rgba(103, 58, 183, 1)',
+                    'rgba(63, 81, 181, 1)',
+                    'rgba(33, 150, 243, 1)',
+                    'rgba(3, 169, 244, 1)',
+                    'rgba(0, 188, 212, 1)',
+                    'rgba(0, 150, 136, 1)',
+                    'rgba(76, 175, 80, 1)',
+                    'rgba(139, 195, 74, 1)',
+                    'rgba(205, 220, 57, 1)',
+                    'rgba(255, 235, 59, 1)',
+                    'rgba(255, 193, 7, 1)'
+                ],
+
+                components: {
+
+                    // Main components
+                    preview: true,
+                    opacity: false,
+                    hue: true,
+
+                    // Input / output Options
+                    interaction: {
+                        hex: true,
+                        rgb: false,
+                        hsla: false,
+                        hsva: false,
+                        cmyk: false,
+                        input: true,
+                        clear: false,
+                        save: false
+                    }
+                }
+            });
+
+            pickr.on('change', (color, instance) => {
+                hexaColor = color.toHEXA().toString();
+                changableColor.forEach(element => {
+                    element.style.fill = hexaColor;
+                })
+
+            });
+
+            const pcrButton = document.querySelector(".pcr-button")
+            const pcr_app = document.querySelector(".pcr-app")
+            const lastColorButton = document.querySelector(".pcr-last-color");
+            lastColorButton.addEventListener("click", () => {
+                hexaColor = "<%= userCardColor %>";
+                changableColor.forEach(element => {
+                    element.style.fill = hexaColor;
+                })
+            })
+
+            console.log(pcrButton)
+
+            pcrButton.setAttribute("class", "btn btn-purple-lighter mt-3");
+            pcrButton.style.color = "white";
+            pcrButton.style.boxShadow = "none";
+            pcrButton.innerHTML = "Modifier ma couleur";
+        </script>
+
+        <script>
+            const saveBtn = document.querySelector("#save");
+
+            console.log(saveBtn);
+
+            saveBtn.addEventListener("click", () => {
+
+                console.log("color chosen", hexaColor);
+
+
+                document.getElementById("loader-spinner").previousElementSibling.setAttribute("style", "display: none;");
+                document.getElementById("loader-spinner").style.display = "block";
+
+                let data = { userColor: hexaColor };
+
+                fetch("profile", {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    method: "POST",
+                    body: JSON.stringify(data)
+                }).then((res) => {
+                    console.log("done", res);
+                    document.getElementById("loader-spinner").style.display = "none";
+                    document.getElementById("loader-spinner").previousElementSibling.removeAttribute("style");
+                });
+
+            });
+
+        </script>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js "
+            integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ "
+            crossorigin="anonymous "></script>
+        <script src="/js/sidebarsServerList.js "></script>
+
+
+
+
+</body>
+
+</html>

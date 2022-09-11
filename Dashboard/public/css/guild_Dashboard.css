@@ -1,0 +1,405 @@
+@font-face {
+  font-family: "calibri";
+  src: url("../fonts/calibri/CALIBRI.TTF");
+  font-family: "tahoma";
+  src: url("../fonts/tahoma/TAHOMA.TTF");
+}
+.font-calibri {
+  font-family: "calibri";
+}
+.b-example-divider {
+  height: 3rem;
+  background-color: rgba(0, 0, 0, 0.1);
+  border: solid rgba(0, 0, 0, 0.15);
+  border-width: 1px 0;
+  box-shadow: inset 0 0.5em 1.5em rgba(0, 0, 0, 0.1), inset 0 0.125em 0.5em rgba(0, 0, 0, 0.15);
+}
+
+.bi {
+  vertical-align: -0.125em;
+  fill: currentColor;
+}
+
+.feature-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  color: #fff;
+  border-radius: 0.75rem;
+}
+
+.icon-link {
+  display: inline-flex;
+  align-items: center;
+}
+
+.icon-link > .bi {
+  margin-top: 0.125rem;
+  margin-left: 0.125rem;
+  transition: transform 0.25s ease-in-out;
+  fill: currentColor;
+}
+
+.icon-link:hover > .bi {
+  transform: translate(0.25rem);
+}
+
+.icon-square {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  font-size: 1.5rem;
+  border-radius: 0.75rem;
+}
+
+.rounded-4 {
+  border-radius: 0.5rem;
+}
+
+.rounded-5 {
+  border-radius: 1rem;
+}
+
+.text-shadow-1 {
+  text-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.25);
+}
+
+.text-shadow-2 {
+  text-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.25);
+}
+
+.text-shadow-3 {
+  text-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.25);
+}
+
+.card-cover {
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+.bg-purple-lighter {
+  color: white;
+  background-color: #735586;
+}
+
+.bg-purple-normal {
+  color: white;
+  background-color: #5b416b;
+}
+
+.bg-purple {
+  color: white;
+  background-color: #2b1738;
+  transition: 0.25s ease;
+}
+
+.bg-outline-other {
+  color: white;
+  border: 1px solid #8f61bb;
+  transition: 0.25s ease;
+}
+
+.bg-outline-other:hover {
+  border: 1px solid #8f61bb;
+  background-color: #8f61bb;
+  transform: scale(1.15);
+  color: white;
+}
+
+.bg-outline-lighter {
+  color: white;
+  border: 1px solid #a172cc;
+  transition: 0.15s ease;
+}
+
+.bg-outline-lighter:hover {
+  border: 1px solid #a172cc;
+  background-color: #a172cc;
+  transform: scale(1.1);
+  color: white;
+}
+
+.bg-purple-animation {
+  color: white;
+  background-color: #2b1738;
+  transition: 0.15s ease;
+}
+
+.bg-purple-animation:hover {
+  background-color: #2b1738;
+  transform: scale(1.1);
+  color: white;
+}
+
+.btn-purple-lighter {
+  color: white;
+  background-color: #735586;
+}
+
+.btn-purple-lighter:hover {
+  color: white;
+  background-color: #5b416b;
+}
+
+.btn-purple-normal {
+  color: white;
+  background-color: #5b416b;
+}
+
+.btn-purple-normal:hover {
+  color: white;
+  background-color: #735586;
+}
+
+.btn-bg-other {
+  color: white;
+  background-color: #8f61bb;
+  transition: 0.25s ease;
+}
+
+.btn-bg-other:hover {
+  color: white;
+  transform: scale(1.15);
+}
+
+.btn:focus {
+  box-shadow: none;
+}
+
+.btn.choice-type-channel.active {
+  background-color: #8f61bb;
+  box-shadow: none;
+}
+.choice-type-channel-holder {
+  width: 370px;
+  border-radius: 5px;
+}
+
+
+.custom-select {
+  position: relative;
+  font-family: Arial;
+}
+
+.custom-select select {
+  display: none;
+  /*hide original SELECT element:*/
+}
+
+.select-selected {
+  background-color: #5b416b;
+  border-radius: 5px;
+}
+
+/*style the arrow inside the select element:*/
+
+.select-selected:after {
+  position: absolute;
+  content: "";
+  top: 14px;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: #fff transparent transparent transparent;
+}
+
+/*point the arrow upwards when the select box is open (active):*/
+
+.select-selected.select-arrow-active:after {
+  border-color: transparent transparent #ffffff transparent;
+  top: 7px;
+}
+
+/*style the items (options), including the selected item:*/
+
+.select-items div,
+.select-selected {
+  color: #ffffff;
+  padding: 8px 16px;
+  cursor: pointer;
+  user-select: none;
+}
+
+/*style items (options):*/
+
+.select-items {
+  position: absolute;
+  height: 300px;
+  background-color: #1f1229;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  margin-top: 10px;
+  border-radius: 2%;
+  overflow-y: scroll;
+}
+
+.select-items::-webkit-scrollbar,
+textarea::-webkit-scrollbar {
+  background-color: transparent;
+}
+
+.select-items::-webkit-scrollbar-thumb,
+textarea::-webkit-scrollbar-thumb {
+  background: #ad6fc5;
+  border: 4px solid transparent;
+  border-radius: 8px;
+  background-clip: padding-box;
+}
+
+/*hide the items when the select box is closed:*/
+
+.select-hide {
+  display: none;
+}
+
+.select-items div,
+.same-as-selected {
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+.select-items div:hover,
+.same-as-selected {
+  background-color: #735586;
+  border-radius: 30px;
+}
+
+.apply-btn-holder {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: 200ms ease-in-out;
+  width: 700px;
+  max-width: 50%;
+  border-radius: 4px;
+  z-index: 99;
+}
+
+.apply-btn-holder.active {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.apply-btn-inside {
+  display: flex;
+  flex-flow: row wrap;
+  -webkit-box-flex: 1;
+  flex-grow: 1;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  transition: ease 0.5s;
+}
+
+#overlay {
+  position: fixed;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  transition: 200ms ease-in-out;
+  z-index: 98;
+}
+
+#overlay.active {
+  pointer-events: all;
+  opacity: 1;
+}
+
+textarea {
+  width: 100%;
+  height: 150px;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 4px;
+  background-color: #5b416b;
+  font-size: 16px;
+  resize: none;
+  outline: none;
+}
+
+#message {
+  width: 60%;
+  color: #fff;
+  padding: 6px 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  background-color: #5b416b;
+  font-size: 16px;
+  resize: none;
+  outline: none;
+}
+
+#infoButtonTextArea{
+  position: absolute;
+  color: white;
+  margin-left: .5rem!important;
+  transition: ease 100ms;
+}
+
+#infoButtonTextArea:hover{
+  transform: scale(1.2);
+}
+
+.auto-text {
+  border-color: transparent;
+  outline-color: #ad6fc5;
+}
+
+.select-title {
+  font-size: small;
+  opacity: 0.8;
+  margin-bottom: 5px;
+}
+
+.loader {
+  border: 5px solid #f3f3f3;
+  /* Light grey */
+  border-top: 5px solid #000a97;
+  /* Blue */
+  opacity: 0.5;
+  border-radius: 50%;
+  margin: auto;
+  width: 25px;
+  height: 25px;
+  animation: spin 1s linear infinite;
+  z-index: 10;
+}
+
+h4 + p, h4 + p.descriptionOptions {
+  opacity: 0.85;
+  font-size: small;
+  font-style: italic;
+  margin-bottom: 25px;
+
+}
+
+.pickr {
+  justify-content: center !important;
+
+  display: flex !important;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

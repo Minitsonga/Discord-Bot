@@ -1,0 +1,39 @@
+{
+  "dependencies": {
+    "@discordjs/builders": "^0.7.0",
+    "@discordjs/rest": "*",
+    "@simonwep/pickr": "^1.8.2",
+    "bootstrap": "^5.1.1",
+    "bootstrap-icons": "^1.7.0",
+    "connect-mongo": "^4.6.0",
+    "discord-api-types": "^0.24.0",
+    "discord.js": "^12.5.3",
+    "dotenv": "^10.0.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "express-ejs-layouts": "^2.5.1",
+    "express-session": "^1.17.2",
+    "http": "^0.0.1-security",
+    "mongoose": "^6.0.11",
+    "node-fetch": "^2.6.5",
+    "oauth": "^0.9.15",
+    "passport": "^0.5.0",
+    "passport-discord": "^0.1.4",
+    "passport-oauth2": "^1.6.1",
+    "slappey": "^4.0.0"
+  },
+  "name": "dashboard",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon ./app.js",
+    "start": "node ./app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^2.0.14"
+  }
+}

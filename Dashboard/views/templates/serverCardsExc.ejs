@@ -1,0 +1,55 @@
+<div class="card" id="card-container-<%= exGuild.id%>">
+    <div class="card-image-container" id="<%= exGuild.name%>-holder">
+
+    </div>
+    <div class="card__content">
+        <p class="card__title text--medium">
+            <%= exGuild.name%>
+        </p>
+        <div class="card__info">
+            <p class="me-2 mb-0" id="owner-<%= exGuild.name %>">Vous appartient</p>
+            <a onclick="javascript:new_Window('https://discord.com/api/oauth2/authorize?client_id=885205148924792863&permissions=8&redirect_uri=http%3A%2F%2Flocalhost%3A3001%2Fauth%2Fdiscord%2Fredirect&response_type=code&scope=bot%20applications.commands');" class="card__invite btn ms-auto" id="text-serv-holder">
+                <p class="mb-0" id="text-serv">Invite</p>
+            </a>
+
+        </div>
+    </div>
+</div>
+<script>
+    var str = "<%= exGuild.name %>";
+    var acronym = str.match(/\b(\w)/g).join('');
+    if (!'<%= exGuild.icon %>') {
+        document.getElementById("<%= exGuild.name%>-holder").setAttribute("class", "card-image-container no-icon");
+        var div = document.createElement("div");
+        div.setAttribute("class", "no-icon-logo");
+        div.textContent = acronym;
+        var holder = document.getElementById("<%= exGuild.name%>-holder");
+        holder.appendChild(div);
+
+    }
+    else {
+        var img = document.createElement("img");
+        img.src = "https://cdn.discordapp.com/icons/<%= exGuild.id%>/<%= exGuild.icon %>.png";
+        img.setAttribute("class", "img");
+        var holder = document.getElementById("<%= exGuild.name%>-holder");
+        holder.appendChild(img);
+
+        var bg = document.createElement("img");
+        bg.src = "https://cdn.discordapp.com/icons/<%= exGuild.id%>/<%= exGuild.icon %>.png";
+        bg.setAttribute("class", "bg");
+        var holder = document.getElementById("<%= exGuild.name%>-holder");
+        holder.appendChild(bg);
+    }
+
+
+
+    if('<%= exGuild.owner %>' === 'true')
+    {
+        document.getElementById('owner-<%= exGuild.name %>').innerHTML = "Guild Owner";
+    }
+    else document.getElementById('owner-<%= exGuild.name %>').innerHTML = "Guild Manager";
+
+
+
+
+</script>
