@@ -1,5 +1,9 @@
 /Dashboard/node_modules
 /Dashboard/.env
-/Laexo Dev/node_modules
-/Laexo Dev/.env
+/Bot/node_modules
+/Bot/.env
+/Bot/config.json
+/Bot/helpCommands.txt
+/Bot/xpMonth.json
+/Bot/xpWeek.json
 

@@ -1,0 +1,557 @@
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const { MessageEmbed, Permissions } = require("discord.js");
+
+const { timeConversion } = require("../timeConversion");
+
+const wait = require('util').promisify(setTimeout);
+
+
+const economyModel = require("../models/economySchema");
+const channelsPluginsModel = require("../models/channelsPluginsSchema");
+const serverStatsModel = require("../models/serverStatsSchema");
+
+module.exports = {
+    data: new SlashCommandBuilder()
+        .setName('game')
+        .setDescription("Gestion des salons temporaires")
+        .addSubcommand(subcommand =>
+            subcommand.setName('dice')
+                .setDescription("Choisis un chiffre et lance les dés")
+                .addIntegerOption(option =>
+                    option.setName('number')
+                        .setDescription("Choisissez un nombre entre 1 et 12")
+                        .setRequired(true))
+                .addIntegerOption(option =>
+                    option.setName('amount')
+                        .setDescription("Misez votre argent. 0 pour tout miser")
+                        .setRequired(true)))
+        .addSubcommand(subcommand =>
+            subcommand.setName('secret-number')
+                .setDescription("Trouvez le nombre secret")
+                .addIntegerOption(option =>
+                    option.setName('amount')
+                        .setDescription("Misez votre argent. 0 pour tout miser")
+                        .setRequired(true)))
+        .addSubcommand(subcommand =>
+            subcommand.setName('roulette')
+                .setDescription("Misez mais attention cela peut mal tourner")
+                .addIntegerOption(option =>
+                    option.setName('amount')
+                        .setDescription("Misez votre argent. 0 pour tout miser")
+                        .setRequired(true)))
+        .addSubcommand(subcommand =>
+            subcommand.setName('info')
+                .setDescription("Besoin d'aide ? L'économie complette ainsi que les commandes vous seront détaillées")),
+
+
+    category: "economy",
+
+    async execute(interaction, client) {
+
+        const channelsPlugings = await channelsPluginsModel.findOne({ serverID: interaction.guild.id })
+
+        const serverStatsData = await serverStatsModel.findOne({ serverID: interaction.guild.id })
+
+        let isAdministrator = false;
+
+        interaction.member.roles.cache.forEach(role => {
+            const { permissions } = role;
+
+            if (permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
+                isAdministrator = true;
+            }
+        });
+
+        //if (!channelsPlugings || !channelsPlugings.gamblingGamesChannelID || channelsPlugings.gamblingGamesChannelID === 'undefined') return interaction.reply({ content: "Oups désolé j'ai fait une erreur ! Pouvez-vous recommencer", ephemeral: true });
+
+        //if (interaction.channel.id !== channelsPlugings.gamblingGamesChannelID) return interaction.reply({ content: `Vous ne pouvez pas utiliser cette commande ici ! Ressayez dans le channel <#${channelsPlugings.economyChannelID}> `, ephemeral: true });
+
+
+        const economyData = await economyModel.findOne({ serverID: interaction.guild.id })
+
+
+        try {
+
+            if (!economyData || economyData.usersList.length <= 0) {
+
+                let economyUser = await economyModel.create({
+
+                    serverID: interaction.guild.id,
+                    name: interaction.guild.name,
+                    usersList: [{
+                        "userID": interaction.user.id,
+                        "username": interaction.user.username,
+                        "userTag": interaction.user.tag,
+                        "wallet": 0,
+                        "items": [],
+                        "isWorking": false,
+                        "lastTimeWorked": 0,
+                        "timeBeforeWorking": 0,
+                        "totalSalary": 0,
+                        "takedDailyGift": false,
+                        "lastTimeGifted": 0,
+                        "jobsCount": 0,
+                        "lastTimePlayedDice": 0,
+                        "CoolDownDice": 7200000,
+                        "lastTimePlayedSecretNB": 0,
+                        "CoolDownSecretNB": 7200000,
+                        "lastTimePlayedRoulette": 0,
+                        "CoolDownRoulette": 7200000,
+                        "lastTimePlayedBJ": 0,
+                        "CoolDownBJ": 18000000,
+
+                    }],
+                    topRichest: [],
+
+                })
+                economyUser.save();
+                console.log("Je cree");
+            }
+            else if (economyData && economyData.usersList.length > 0) {
+
+                let count = 0;
+                economyData.usersList.forEach(user => {
+                    if (user.userID !== interaction.user.id) count++;
+
+                })
+                if (count >= economyData.usersList.length) {
+                    economyData.usersList.push({
+                        "userID": interaction.user.id,
+                        "username": interaction.user.username,
+                        "userTag": interaction.user.tag,
+                        "wallet": 0,
+                        "items": [],
+                        "isWorking": false,
+                        "lastTimeWorked": 0,
+                        "timeBeforeWorking": 0,
+                        "totalSalary": 0,
+                        "takedDailyGift": false,
+                        "lastTimeGifted": 0,
+                        "jobsCount": 0,
+                        "lastTimePlayedDice": 0,
+                        "CoolDownDice": 7200000,
+                        "lastTimePlayedSecretNB": 0,
+                        "CoolDownSecretNB": 7200000,
+                        "lastTimePlayedRoulette": 0,
+                        "CoolDownRoulette": 7200000,
+                        "lastTimePlayedBJ": 0,
+                        "CoolDownBJ": 18000000,
+                    })
+                    console.log("nouvel user");
+                }
+
+            }
+            await economyModel.findOneAndUpdate({ serverID: interaction.guild.id },
+                {
+                    usersList: economyData.usersList
+                }
+            );
+
+        }
+        catch (err) {
+            console.log(err);
+        }
+
+        let denyRolesList = [];
+        let userCanUseCommand = true;
+        serverStatsData.commandsCategoryPerms.forEach(element => {
+            if (element.category === this.category) {
+
+                if (element.currentPerms.denyRoles && element.currentPerms.denyRoles.length > 0) denyRolesList = element.currentPerms.denyRoles;
+
+            }
+        })
+
+        if (denyRolesList.length > 0) {
+            denyRolesList.forEach(role => {
+
+                if (interaction.guild.members.cache.get(interaction.user.id).roles.cache.has(role.id)) {
+                    userCanUseCommand = false
+
+                }
+            })
+        }
+
+
+        if (!userCanUseCommand && !isAdministrator) return interaction.reply({ content: `Vous n'avez pas le droit d'utiliser cette commande ! Désolé`, ephemeral: true })
+
+
+        const economyDataUpdated = await economyModel.findOne({ serverID: interaction.guild.id })
+
+        let userEconomyData = {};
+
+        let usersEconomyList = economyDataUpdated.usersList;
+
+        economyDataUpdated.usersList.forEach(element => {
+
+            if (interaction.user.id === element.userID) {
+                userEconomyData = element;
+
+            }
+
+        })
+
+
+
+
+        if (interaction.options.getSubcommand() === 'dice') {
+
+            let ammount = interaction.options.getInteger("amount");
+
+            if (ammount === 0) ammount = userEconomyData.wallet;
+            const userBet = ammount;
+
+            const userNumber = interaction.options.getInteger("number");
+
+            if (userEconomyData.wallet <= 0 || userBet > userEconomyData.wallet) {
+                return interaction.reply({
+                    content: `Vous n'avez pas suffisament de 💶 !
+                    Vous pouvez miser au maximum **${userEconomyData.wallet}** 💶`, ephemeral: true
+                })
+            }
+
+
+
+            if (userNumber > 12 || userNumber < 1) return interaction.reply({ content: `Vous devez utiliser un chiffre en 1 et 12 !`, ephemeral: true })
+
+            const timeLeft = userEconomyData.CoolDownDice - (new Date().getTime() - userEconomyData.lastTimePlayedDice)
+
+            let timeLeftBeforePlayAgain;
+
+            if (timeLeft > 0) {
+
+                console.log("time left", timeConversion(timeLeft))
+                timeLeftBeforePlayAgain = timeConversion(timeLeft)
+
+                const embedDenyPlay = new MessageEmbed()
+                    .setColor('#FF0000')
+                    .setAuthor("Ah ! Mince...")
+                    .setDescription(`<@${interaction.user.id}>, Vous êtes déjà jouer a ce jeu ! 
+            Revenez dans **${timeLeftBeforePlayAgain}** pour rejouer`)
+
+                return interaction.reply({ embeds: [embedDenyPlay] })
+            }
+
+
+
+
+            console.log("start data ", usersEconomyList);
+
+            const firstDiceNumber = Math.floor(Math.random() * 5) + 1;
+            const secondDiceNumber = Math.floor(Math.random() * 5) + 1;
+
+            const totalDiceNumber = secondDiceNumber + firstDiceNumber;
+
+
+
+            userEconomyData.lastTimePlayedDice = new Date().getTime();
+            const embedPlay = new MessageEmbed()
+                .setColor('#0099ff')
+                .setAuthor("Jouons aux dés")
+                .setDescription(`**${interaction.user.username}** mise **${userBet}** 💶 sur le numéro **${userNumber}** !`)
+
+            interaction.reply({ embeds: [embedPlay] });
+            await wait(2000);
+            await interaction.channel.send({ content: ` 🎲 Je lance les dés ... 🎲 ` });
+            await wait(2000);
+            await interaction.channel.send({ content: ` 🎲 Attention ... 🎲 ` });
+            await wait(4000);
+            await interaction.channel.send({ content: ` 🎲 Le premier dé s'arrête sur le **${firstDiceNumber}** 🎲 ` });
+            await wait(2000);
+            await interaction.channel.send({ content: ` 🎲 Le deuxième dé s'arrête sur le **${secondDiceNumber}** 🎲 ` });
+            await wait(1500);
+            await interaction.channel.send({ content: ` 🎲 Le total est de ${totalDiceNumber} 🎲 ` });
+
+            if (totalDiceNumber === userNumber) {
+                await interaction.channel.send({ content: ` 🎲 Bravo !! **${interaction.user.username}** gagne **${userBet}** 💶 🤑 ` });
+                userEconomyData.wallet += userBet;
+            }
+            else {
+                await interaction.channel.send({ content: ` 🎲 Dommage ! **${interaction.user.username}** perd **${userBet}** 💶 😔 ` });
+                userEconomyData.wallet -= userBet;
+
+            }
+
+
+            console.log("updated", userEconomyData);
+
+            usersEconomyList.forEach(element => {
+                if (element.userID === interaction.user.id) {
+                    element = userEconomyData;
+                }
+            })
+
+            await economyModel.findOneAndUpdate({ serverID: interaction.guild.id },
+                {
+                    usersList: usersEconomyList
+                }
+            );
+
+        }
+
+        if (interaction.options.getSubcommand() === 'secret-number') {
+
+            let ammount = interaction.options.getInteger("amount");
+
+            if (ammount === 0) ammount = userEconomyData.wallet;
+            const userBet = ammount;
+
+            if (userEconomyData.wallet <= 0 || userBet > userEconomyData.wallet) {
+                return interaction.reply({
+                    content: `Vous n'avez pas suffisament de 💶 ! Vous pouvez miser au maximum **${userEconomyData.wallet}** 💶`, ephemeral: true
+                })
+            }
+
+            if (userBet <= 0) return interaction.reply({ content: `Votre mise doit être positive !`, ephemeral: true })
+
+            const timeLeft = userEconomyData.CoolDownSecretNB - (new Date().getTime() - userEconomyData.lastTimePlayedSecretNB)
+
+            let timeLeftBeforePlayAgain;
+
+            if (timeLeft > 0) {
+
+                console.log("time left", timeConversion(timeLeft))
+                timeLeftBeforePlayAgain = timeConversion(timeLeft)
+
+                const embedDenyPlay = new MessageEmbed()
+                    .setColor('#FF0000')
+                    .setAuthor("Ah ! Mince...")
+                    .setDescription(`<@${interaction.user.id}>, Vous êtes déjà jouer a ce jeu ! 
+            Revenez dans **${timeLeftBeforePlayAgain}** pour rejouer`)
+
+                return interaction.reply({ embeds: [embedDenyPlay] })
+            }
+            console.log("start data ", usersEconomyList);
+
+
+            let userTries = 5;
+            let cur_userTries = userTries;
+            const secretNumber = Math.floor(Math.random() * 99) + 1;
+
+            userEconomyData.lastTimePlayedSecretNB = new Date().getTime();
+            const embedPlay = new MessageEmbed()
+                .setColor('#0099ff')
+                .setAuthor("Jouons aux dés")
+                .setDescription(`**${interaction.user.username}** mise **${userBet}** 💶! Vous avez **${userTries}** essais pour trouver le nombre caché`)
+
+            interaction.reply({ embeds: [embedPlay] });
+            await wait(500);
+            await interaction.channel.send({ content: `**${interaction.user.username}**, Ecrivez un nombre` });
+
+            let userNumber;
+            let gameEnded = false;
+
+            client.on('messageCreate', async (msg) => {
+
+                if (msg.type != 'DEFAULT') return;
+
+                if (msg.author.id === interaction.user.id) {
+
+
+                    if (!isNaN(msg.content) && cur_userTries > 0) {
+
+                        userNumber = parseInt(msg.content);
+
+                        if (userNumber < secretNumber) {
+                            cur_userTries--;
+
+                            if (cur_userTries <= 0) {
+
+                                const embedLoose = new MessageEmbed()
+                                    .setColor('#FF0000')
+                                    .setAuthor(`Dommage ${interaction.user.username} !`)
+                                    .setDescription(`Le nombre caché était : **${secretNumber}**. Vous perdez malheureusement **${userBet}** 💶`)
+
+                                await wait(1000);
+
+                                console.log("endSup")
+                                userEconomyData.wallet -= userBet;
+
+                                console.log("updatedSupLoose", userEconomyData);
+                                usersEconomyList.forEach(element => {
+                                    if (element.userID === interaction.user.id) {
+                                        element = userEconomyData;
+                                    }
+                                })
+
+                                await economyModel.findOneAndUpdate({ serverID: interaction.guild.id },
+                                    {
+                                        usersList: usersEconomyList
+                                    }
+                                );
+
+                                return interaction.channel.send({ embeds: [embedLoose] });
+                            }
+
+                            await wait(1000);
+                            await interaction.channel.send({ content: `Le nombre secret est **plus grand** que **${userNumber}**. Plus que **${cur_userTries}** essais` });
+
+                        }
+                        else if (userNumber > secretNumber) {
+                            cur_userTries--;
+
+                            if (cur_userTries <= 0) {
+                                gameEnded = true;
+                                const embedLoose = new MessageEmbed()
+                                    .setColor('#FF0000')
+                                    .setAuthor(`Dommage ${interaction.user.username} !`)
+                                    .setDescription(`Le nombre caché était : **${secretNumber}**. Vous perdez malheureusement **${userBet}** 💶`)
+
+                                await wait(1000);
+
+                                console.log("endLess")
+                                userEconomyData.wallet -= userBet;
+
+                                console.log("updated lessLoose", userEconomyData);
+                                usersEconomyList.forEach(element => {
+                                    if (element.userID === interaction.user.id) {
+                                        element = userEconomyData;
+                                    }
+                                })
+
+                                await economyModel.findOneAndUpdate({ serverID: interaction.guild.id },
+                                    {
+                                        usersList: usersEconomyList
+                                    }
+                                );
+
+                                return interaction.channel.send({ embeds: [embedLoose] });
+                            }
+
+                            await wait(1000);
+                            await interaction.channel.send({ content: `Le nombre secret est **plus petit** que **${userNumber}**. Plus que **${cur_userTries}** essais` });
+
+                        }
+                        else if (userNumber === secretNumber) {
+
+                            const embedWin = new MessageEmbed()
+                                .setColor('GREEN')
+                                .setAuthor(`Victoire ${interaction.user.username}`)
+                                .setDescription(`Bravo !! Vous avez trouvé le nombre caché : **${secretNumber}**. 
+                                    Voici votre mise **${userBet}** 💶`)
+
+
+
+                            await wait(1000);
+
+
+                            userEconomyData.wallet += userBet;
+
+                            console.log("updatedWin", userEconomyData);
+                            usersEconomyList.forEach(element => {
+                                if (element.userID === interaction.user.id) {
+                                    element = userEconomyData;
+                                }
+                            })
+
+                            await economyModel.findOneAndUpdate({ serverID: interaction.guild.id },
+                                {
+                                    usersList: usersEconomyList
+                                }
+                            );
+
+                            return interaction.channel.send({ embeds: [embedWin] });
+
+                        }
+                    }
+
+                }
+            })
+        }
+
+        if (interaction.options.getSubcommand() === 'roulette') {
+
+            let ammount = interaction.options.getInteger("amount");
+
+            if (ammount === 0) ammount = userEconomyData.wallet;
+            const userBet = ammount;
+
+            if (userEconomyData.wallet <= 0 || userBet > userEconomyData.wallet) {
+                return interaction.reply({
+                    content: `Vous n'avez pas suffisament de 💶 ! Vous pouvez miser au maximum **${userEconomyData.wallet}** 💶`, ephemeral: true
+                })
+            }
+
+            if (userBet <= 0) return interaction.reply({ content: `Votre mise doit être positive !`, ephemeral: true })
+
+            const timeLeft = userEconomyData.CoolDownRoulette - (new Date().getTime() - userEconomyData.lastTimePlayedRoulette)
+
+            let timeLeftBeforePlayAgain;
+
+            if (timeLeft > 0) {
+
+                console.log("time left", timeConversion(timeLeft))
+                timeLeftBeforePlayAgain = timeConversion(timeLeft)
+
+                const embedDenyPlay = new MessageEmbed()
+                    .setColor('#FF0000')
+                    .setAuthor("Ah ! Mince...")
+                    .setDescription(`<@${interaction.user.id}>, Vous êtes déjà jouer a ce jeu ! 
+            Revenez dans **${timeLeftBeforePlayAgain}** pour rejouer`)
+
+                return interaction.reply({ embeds: [embedDenyPlay] })
+            }
+            console.log("start data ", usersEconomyList);
+
+
+            const nbAmmo = Math.floor(Math.random() * 4) + 1;
+
+            const currentPlace = Math.floor(Math.random() * 5) + 1;
+
+
+            userEconomyData.lastTimePlayedRoulette = new Date().getTime();
+
+            const embedPlay = new MessageEmbed()
+                .setColor('#0099ff')
+                .setAuthor("La roulette")
+                .setDescription(`**${interaction.user.username}** mise **${userBet}** 💶! Voici votre arme 🔫. Elle est chargé avec **${nbAmmo}** balles sur **6**.
+                Bonne chance...`)
+
+            interaction.reply({ embeds: [embedPlay] });
+
+            await wait(3000);
+            await interaction.channel.send({ content: `🔫 **${interaction.user.username}** fait tourner le chargeur de l'arme  et...` });
+            await wait(2500);
+
+            if (nbAmmo < currentPlace) {
+                await interaction.channel.send({ content: `🔫 💥 BANG ! 💥` });
+                await wait(1500);
+                const embedLoose = new MessageEmbed()
+                    .setColor('#FF0000')
+                    .setAuthor("La roulette")
+                    .setDescription(`Ce jeu a mal tourné... Vous perdez votre mise de ${userBet} 💶`)
+
+                userEconomyData.wallet -= userBet;
+
+                interaction.channel.send({ embeds: [embedLoose] });
+            }
+            else {
+                await interaction.channel.send({ content: `🔫 ✨ CLICK ! ✨` });
+                await wait(1500);
+                const embedWin = new MessageEmbed()
+                    .setColor('#0099ff')
+                    .setAuthor("La roulette")
+                    .setDescription(`Pas de désastre cette fois ! Vous gagnez vos ${userBet} 💶. Bravo !`)
+
+                userEconomyData.wallet += userBet;
+                interaction.channel.send({ embeds: [embedWin] });
+            }
+
+            console.log("updated", userEconomyData);
+
+            usersEconomyList.forEach(element => {
+                if (element.userID === interaction.user.id) {
+                    element = userEconomyData;
+                }
+            })
+
+            await economyModel.findOneAndUpdate({ serverID: interaction.guild.id },
+                {
+                    usersList: usersEconomyList
+                }
+            );
+
+        }
+
+    },
+};
