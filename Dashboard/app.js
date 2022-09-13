@@ -1,6 +1,7 @@
 require('dotenv').config();
 require('./src/strategies/discord');
 
+
 const express = require('express');
 const passport = require('passport');
 const session = require('express-session');
@@ -15,6 +16,10 @@ const routes = require('./src/routes/index');
 
 const { Client, Intents } = require('discord.js');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MESSAGES] });
+
+var crypto = require('crypto');
+var name = 'braitsch';
+var hash = crypto.createHash('md5').update(name).digest('hex');
 
 
 client.login(process.env.DISCORD_BOT_TOKEN);
@@ -31,7 +36,7 @@ app.use(express.urlencoded({ extended: false}));
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 app.use(session({
-    secret: 'secret',
+    secret: hash,
     cookie: {
         maxAge: 60000 * 60 * 24
     },
